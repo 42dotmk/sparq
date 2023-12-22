@@ -10,15 +10,14 @@
 //
 
 #pragma once
+#include "IMotor.hpp"
 
 
 namespace Robot4e::Hal
 {
-    class IStepperMotor: public Robot4e::Hal::IMotor
+    class IStepperMotor: public Hal::IMotor
     {
     public:
-        virtual ~IStepperMotor() = default;
-
-
+        ~IStepperMotor() override = default;
     };
 }

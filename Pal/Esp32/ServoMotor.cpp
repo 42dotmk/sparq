@@ -6,7 +6,7 @@
 //
 // Version: 1.0
 //
-// Description: 
+// Description: This is the implementation file for the ServoMotor class. It contains the function definitions.
 //
 
 #include "ServoMotor.hpp"

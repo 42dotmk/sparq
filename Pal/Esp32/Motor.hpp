@@ -10,15 +10,16 @@
 //
 
 #pragma once
+#include "../../Hal/IMotor.hpp"
 
 namespace Robot4e::Pal::Esp32
 {
-    class Motor: public Robot4e::Hal::IMotor
+    class Motor: public Hal::IMotor
     {
     public:
         Motor();
-        ~Motor() = default;
+        ~Motor() override = default;
 
-        void SetAngle(std::int16_t Angle);
+        void SetAngle(std::int16_t Angle) override;
     };
 }

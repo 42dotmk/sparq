@@ -10,15 +10,16 @@
 //
 
 #pragma once
+#include "../../Hal/IServoMotor.hpp"
 
 
 namespace Robot4e::Pal::Esp32
 {
-    class ServoMotor: public Robot4e::Hal::IServoMotor
+    class ServoMotor: public Hal::IServoMotor
     {
     public:
         ServoMotor();
-        ~ServoMotor() = default;
+        ~ServoMotor() override = default;
 
         void SetAngle(std::int16_t Angle) final;
     };

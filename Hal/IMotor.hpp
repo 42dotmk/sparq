@@ -20,6 +20,11 @@ namespace Robot4e::Hal
     public:
         virtual ~IMotor() = default;
 
+        virtual void Initialize() = 0;
+
+        virtual void RotateClockwise(std::int16_t Steps) = 0;
+        virtual void RotateCounterClockwise(std::int16_t Steps) = 0;
+
         virtual void SetAngle(std::int16_t Angle) = 0;
     };
 }

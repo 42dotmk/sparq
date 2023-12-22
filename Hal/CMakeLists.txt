@@ -1,4 +1,5 @@
-add_library(robot4e_hal_library INTERFACE)
-target_include_directories(robot4e_hal_library INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-)
+add_library(HalLib IMotor.hpp IServoMotor.hpp IStepperMotor.hpp)
+
+target_include_directories(HalLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+set_target_properties(HalLib PROPERTIES LINKER_LANGUAGE CXX)
