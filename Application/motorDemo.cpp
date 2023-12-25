@@ -9,7 +9,7 @@
 // Description:  Demo application for the 28BYJ48 stepper motor driver. This driver is used to control the stepper motors of the robot arm.
 //
 
-#include "../Pal/Esp32/StepperMotor.hpp"
+#include "StepperMotor.hpp"
 
 #define IN1 19
 #define IN2 18

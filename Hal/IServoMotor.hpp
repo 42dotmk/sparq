@@ -14,7 +14,7 @@
 
 namespace Robot4e::Hal
 {
-    class IServoMotor: public IMotor
+    class IServoMotor: public Hal::IMotor
     {
     public:
         ~IServoMotor() override = default;

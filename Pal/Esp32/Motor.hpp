@@ -10,7 +10,7 @@
 //
 
 #pragma once
-#include "../../Hal/IMotor.hpp"
+#include "IMotor.hpp"
 
 namespace Robot4e::Pal::Esp32
 {

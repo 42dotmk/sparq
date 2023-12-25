@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "../Hal/IStepperMotor.hpp"
+#include "IStepperMotor.hpp"
 
 namespace Robot4e::Drivers
 {

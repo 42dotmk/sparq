@@ -11,8 +11,8 @@
 
 #pragma once
 
-#include "../../Drivers/28BYJ48.hpp"
-#include "../../Hal/IStepperMotor.hpp"
+#include "28BYJ48.hpp"
+#include "IStepperMotor.hpp"
 
 namespace Robot4e::Pal::Esp32
 {

@@ -10,7 +10,7 @@
 //
 
 #pragma once
-#include "../../Hal/IServoMotor.hpp"
+#include "IServoMotor.hpp"
 
 
 namespace Robot4e::Pal::Esp32

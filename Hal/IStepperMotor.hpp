@@ -12,7 +12,6 @@
 #pragma once
 #include "IMotor.hpp"
 
-
 namespace Robot4e::Hal
 {
     class IStepperMotor: public Hal::IMotor
