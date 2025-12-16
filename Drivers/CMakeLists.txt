@@ -1,5 +1,15 @@
-add_library(DriversLib 28BYJ48.cpp)
+# Drivers CMake
+add_library(sparqDrivers
+    STATIC
+        placeholder.cpp
+)
 
-target_include_directories(DriversLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(sparqDrivers 
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-target_link_libraries(DriversLib PUBLIC HalLib)
+target_link_libraries(sparqDrivers
+    PUBLIC 
+        sparqHal
+)

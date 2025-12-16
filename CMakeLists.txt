@@ -1,13 +1,28 @@
+# sparq root CMake
 cmake_minimum_required(VERSION 3.23)
 
-project(robot4e VERSION 1.0.0 LANGUAGES CXX)
+project(sparq LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+option(SPARQ_BUILD_HOST "Build host targets" ON)
+
+# ============================
+# ESP-IDF ENTRY POINT
+# ============================
+if(ESP_PLATFORM)
+    # ESP-IDF will take over from here
+    return()
+endif()
+
+# ============================
+# HOST CONFIGURATION
+# ============================
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_subdirectory(Application)
+add_subdirectory(Common)
 add_subdirectory(Drivers)
-add_subdirectory(Hal)
-add_subdirectory(Pal/Esp32)
-
-target_link_libraries(motorDemo PRIVATE HalLib PalLib DriversLib)
+add_subdirectory(HardwareAbstractionLayer)
+add_subdirectory(OperatingSystemAbstractionLayer)
+add_subdirectory(OperatingSystems)
+add_subdirectory(PlatformAbstractionLayer)
+add_subdirectory(Testing)
