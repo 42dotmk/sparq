@@ -5,7 +5,7 @@
 **sparq** is part of Base42's Embedded Ecosystem, it can be included in any embedded project via [vcpkg](https://vcpkg.io/en/) and can be found as package in _our own vcpkg repository:_ [base42-vcpkg-registry](https://github.com/42dotmk/base42-vcpkg-registry)
 
 #### Overview of the Base42's Embedded Ecosystem:
-![Overview of the Base42's Embedded Ecosystem](architecture.png)
+![Overview of the Base42's Embedded Ecosystem](Documentation/ecosystemOverview.png)
 
 ### Documentation
 
