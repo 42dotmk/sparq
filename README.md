@@ -13,6 +13,7 @@ Documentation for the framework can be found in [it's own wiki](https://github.c
 
 ### Contribution
 
+Here's our [Contribution](CONTRIBUTION.md)
 PR's are welcome, but participating in our live meetings is preferred.
 
 It's where we discuss and decide on the architecture, the implementations, share knowledge and most importantly have fun.
