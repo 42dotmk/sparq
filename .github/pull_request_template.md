@@ -13,10 +13,10 @@
 * Hardware:
 * Toolchain:
 
-## Checklist before merging:
+## Checklist before merging(don't check if not applicable):
 
-- [ ] My code follows the style guidelines of this project
+- [ ] My code follows the style guidelines of this project, check [Contribution](CONTRIBUTION.md)
 - [ ] I have performed a self-review of my own code
-- [ ] I have made the code self-documented[ [1] ](https://lackofimagination.org/2024/10/self-documenting-code/), [ [2] ](https://en.wikipedia.org/wiki/Self-documenting_code) and in hard-to-understand areas, commented my code
+- [ ] I have made the code self-documented[ [1] ](https://lackofimagination.org/2024/10/self-documenting-code/), [ [2] ](https://en.wikipedia.org/wiki/Self-documenting_code) and in hard-to-understand areas, commented my code, if applicable
 - [ ] I have made corresponding changes to the documentation, if applicable
-- [ ] New and existing unit tests pass locally with my changes
+- [ ] New and existing unit tests pass locally with my changes, if applicable
