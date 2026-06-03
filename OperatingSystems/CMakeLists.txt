@@ -5,7 +5,8 @@ add_library(sparqOS STATIC
 
 target_include_directories(sparqOS
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/OperatingSystems>
 )
 
 target_link_libraries(sparqOS

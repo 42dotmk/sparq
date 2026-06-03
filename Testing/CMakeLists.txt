@@ -5,7 +5,8 @@ add_library(sparqTesting STATIC
 
 target_include_directories(sparqTesting
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/Testing>
 )
 
 target_link_libraries(sparqTesting

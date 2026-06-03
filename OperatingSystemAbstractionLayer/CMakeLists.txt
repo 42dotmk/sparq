@@ -5,7 +5,8 @@ add_library(sparqOsal STATIC
 
 target_include_directories(sparqOsal
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/OperatingSystemAbstractionLayer>
 )
 
 target_link_libraries(sparqOsal
