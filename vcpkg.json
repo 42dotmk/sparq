@@ -2,31 +2,12 @@
     "name": "sparq",
     "version": "0.0.1",
     "description": "base42's embedded framework",
-    "dependencies": [
-        {
-            "name": "",
-            "features": [
-                ""
-            ],
-            "version>=": ""
-        }
-    ],
+    "dependencies": [],
     "features": {
         "test": {
             "description": "test utilities",
             "dependencies": [
                 "gtest"
-            ]
-        },
-        "": {
-            "description": "support for ... devices",
-            "dependencies": [
-                {
-                    "name": "",
-                    "features": [
-                        ""
-                    ]
-                }
             ]
         }
     }
