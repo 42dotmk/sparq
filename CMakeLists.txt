@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.23)
 project(sparq VERSION 0.0.1 LANGUAGES CXX)
 
 option(SPARQ_BUILD_HOST "Build host targets" ON)
-option(SPARQ_ENABLE_ESP32 "Build the sparq ESP32 ESP-IDF component" ON)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -13,9 +12,8 @@ include(CMakePackageConfigHelpers)
 # ESP-IDF ENTRY POINT
 # ============================
 if(ESP_PLATFORM)
-    if(SPARQ_ENABLE_ESP32)
-        add_subdirectory(PlatformAbstractionLayer/Esp32)
-    endif()
+    # ESP-IDF is driving the build, let it build its component natively
+    add_subdirectory(PlatformAbstractionLayer/Esp32)
     return()
 endif()
 
