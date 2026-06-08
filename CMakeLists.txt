@@ -28,36 +28,25 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(Common)
-add_subdirectory(Drivers)
 add_subdirectory(HardwareAbstractionLayer)
-add_subdirectory(OperatingSystemAbstractionLayer)
-add_subdirectory(OperatingSystems)
 add_subdirectory(PlatformAbstractionLayer)
-add_subdirectory(Testing)
 
 add_library(sparq INTERFACE)
 target_link_libraries(sparq
     INTERFACE
         sparqPal
-        sparqDrivers
 )
 
 install(TARGETS
     sparq
     sparqCommon
     sparqHal
-    sparqOsal
-    sparqOS
     sparqPal
-    sparqDrivers
     EXPORT sparqTargets
     FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/HardwareAbstractionLayer
 )
 
 install(DIRECTORY Common/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Common FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
-install(DIRECTORY Drivers/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Drivers FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
-install(DIRECTORY OperatingSystemAbstractionLayer/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/OperatingSystemAbstractionLayer FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
-install(DIRECTORY OperatingSystems/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/OperatingSystems FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
 install(DIRECTORY PlatformAbstractionLayer/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/PlatformAbstractionLayer FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
 
 configure_package_config_file(

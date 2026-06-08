@@ -11,7 +11,6 @@ target_include_directories(sparqPal
 
 target_link_libraries(sparqPal
     PUBLIC
-        sparqOS
         sparqCommon
 )
 
