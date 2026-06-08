@@ -9,7 +9,7 @@
             "kind": "git",
             "repository": "https://github.com/42dotmk/base42-vcpkg-registry",
             "packages": [],
-            "baseline": "8b471b5f38f1bf3ce835e68736fcefe47f1db076"
+            "baseline": "3833bb46ea65c1db763c1c3f258a12cab41ff5ec"
         }
     ]
 }
