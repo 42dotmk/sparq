@@ -1,0 +1,3 @@
+version: "0.0.1"
+description: "base42's embedded framework (ESP32 backend)"
+url: "https://github.com/42dotmk/sparq"

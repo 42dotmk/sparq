@@ -5,12 +5,12 @@ add_library(sparqPal STATIC
 
 target_include_directories(sparqPal
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/PlatformAbstractionLayer>
 )
 
 target_link_libraries(sparqPal
     PUBLIC
-        sparqOS
         sparqCommon
 )
 

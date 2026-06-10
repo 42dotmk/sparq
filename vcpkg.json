@@ -1,0 +1,6 @@
+{
+    "name": "sparq",
+    "version": "0.0.1",
+    "description": "base42's embedded framework",
+    "dependencies": []
+}
