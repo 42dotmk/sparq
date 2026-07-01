@@ -6,7 +6,7 @@ target_sources(sparqHal
         BASE_DIRS
             ${CMAKE_CURRENT_SOURCE_DIR}
         FILES
-            placeholder.hpp
+            IDigitalOutputPin.hpp
 )
 
 target_include_directories(sparqHal

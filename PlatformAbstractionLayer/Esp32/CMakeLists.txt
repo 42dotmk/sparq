@@ -4,7 +4,5 @@ idf_component_register(
     INCLUDE_DIRS
         .
     REQUIRES
-        driver
-        esp_system
-        freertos
+        esp_driver_gpio
 )

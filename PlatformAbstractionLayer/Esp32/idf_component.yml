@@ -1,3 +1,7 @@
-version: "0.0.2"
+version: "0.1.0"
 description: "base42's embedded framework (ESP32 backend)"
 url: "https://github.com/42dotmk/sparq"
+
+dependencies:
+  idf: ">=5.3"
+  
