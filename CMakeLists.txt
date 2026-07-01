@@ -1,7 +1,7 @@
 # sparq root CMake
 cmake_minimum_required(VERSION 3.23...4.0)
 
-project(sparq VERSION 0.0.1 LANGUAGES CXX)
+project(sparq VERSION 0.0.2 LANGUAGES CXX)
 
 option(SPARQ_BUILD_HOST "Build host targets" ON)
 
