@@ -8,4 +8,11 @@ namespace sparqCommon
         ActiveLow = 0,
         ActiveHigh = 1,
     };
+
+    enum class RawElectricalState
+    {
+        LOW = 0,
+        HIGH = 1,
+        UNDEFINED = 2,
+    };
 }

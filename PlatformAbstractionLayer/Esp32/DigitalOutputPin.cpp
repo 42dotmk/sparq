@@ -54,4 +54,24 @@ namespace sparqPal::esp32::gpio
             return sparqCommon::ErrorCodes::UNDEFINED_ELECTRICAL_LEVEL;
         }
     }
+
+    sparqCommon::ErrorCodes toggleRawElectricalState()
+    {
+        sparqCommon::RawElecticalState currentState = this->getRawElectricalState();
+        if (currentState == sparqCommon::RawElectricalState::LOW)
+        {
+            this->setRawElectricalState(sparqCommon::RawElectricalState::HIGH);
+            return sparqCommon::ErrorCodes::OK;
+        }
+        else if (currentState == sparqCommon::RawElectricalState::HIGH)
+        {
+            this->setRawElectricalState(sparqCommon::RawElectricalState::LOW);
+            return sparqCommon::ErrorCodes::OK;
+        }
+        else
+        {
+            this->setRawElectricalState(sparqCommon::RawElectricalState::UNDEFINED);
+            return sparqCommon::ErrorCodes::UNDEFINED_ELECTRICAL_LEVEL;
+        }
+    }
 }

@@ -20,4 +20,9 @@ namespace sparqPal::esp32::gpio
         sparqCommon::RawElectricalState getRawElectricalState() override final;
         sparqCommon::ErrorCodes setRawElectricalState(sparqCommon::RawElectricalState) override final;
         sparqCommon::ErrorCodes toggleRawElectricalState() override final;
+
+    private:
+        const gpio_num_t pinNumber;
+        const sparqCommon::UserDefinedElectricalState userDefinedElectricalState;
+    };
 }
