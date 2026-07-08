@@ -1,0 +1,77 @@
+\doxysection{sparq\+Hal::\+IDigital\+Output\+Pin Class Reference}
+\hypertarget{classsparq_hal_1_1_i_digital_output_pin}{}\label{classsparq_hal_1_1_i_digital_output_pin}\index{sparqHal::IDigitalOutputPin@{sparqHal::IDigitalOutputPin}}
+Inheritance diagram for sparq\+Hal::\+IDigital\+Output\+Pin:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classsparq_hal_1_1_i_digital_output_pin}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classsparq_hal_1_1_i_digital_output_pin_aad22ec72d39c57841eb5bd23d7e8e5ac}\label{classsparq_hal_1_1_i_digital_output_pin_aad22ec72d39c57841eb5bd23d7e8e5ac} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+IDigital\+Output\+Pin} ()=default
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{classsparq_hal_1_1_i_digital_output_pin}{IDigital\+Output\+Pin} object. \end{DoxyCompactList}\item 
+virtual sparq\+Common::\+\+Raw\+Electrical\+State \doxymbox{\hyperlink{classsparq_hal_1_1_i_digital_output_pin_a155f1b60bb6d175385bba6bbf4c21b9c}{get\+Raw\+Electrical\+State}} ()=0
+\begin{DoxyCompactList}\small\item\em Get the Raw Electrical State object. \end{DoxyCompactList}\item 
+virtual sparq\+Common::\+\+Error\+Codes \doxymbox{\hyperlink{classsparq_hal_1_1_i_digital_output_pin_afce9c1d33f565ecae6ec1238fdf4ad79}{set\+Raw\+Electrical\+State}} (sparq\+Common::\+\+Raw\+Electrical\+State)=0
+\begin{DoxyCompactList}\small\item\em Set the Raw Electrical State object. \end{DoxyCompactList}\item 
+virtual sparq\+Common::\+\+Error\+Codes \doxymbox{\hyperlink{classsparq_hal_1_1_i_digital_output_pin_a27567d362552297812fa770c2792ab14}{toggle\+Raw\+Electrical\+State}} ()=0
+\end{DoxyCompactItemize}
+
+
+\label{classsparq_hal_1_1_i_digital_output_pin_doc-func-members}
+\Hypertarget{classsparq_hal_1_1_i_digital_output_pin_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classsparq_hal_1_1_i_digital_output_pin_a155f1b60bb6d175385bba6bbf4c21b9c}\index{sparqHal::IDigitalOutputPin@{sparqHal::IDigitalOutputPin}!getRawElectricalState@{getRawElectricalState}}
+\index{getRawElectricalState@{getRawElectricalState}!sparqHal::IDigitalOutputPin@{sparqHal::IDigitalOutputPin}}
+\doxysubsubsection{\texorpdfstring{getRawElectricalState()}{getRawElectricalState()}}
+{\footnotesize\ttfamily \label{classsparq_hal_1_1_i_digital_output_pin_a155f1b60bb6d175385bba6bbf4c21b9c} 
+virtual sparq\+Common::\+\+Raw\+Electrical\+State sparq\+Hal::\+\+IDigital\+Output\+Pin::\+get\+Raw\+Electrical\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the Raw Electrical State object. 
+
+\begin{DoxyReturn}{Returns}
+sparq\+Common::\+\+Raw\+Electrical\+State 
+\end{DoxyReturn}
+
+
+Implemented in \doxymbox{\hyperlink{classsparq_pal_1_1esp32_1_1gpio_1_1_digital_output_pin_ade1de3451e43f93c0713c09c1c7d0223}{sparq\+Pal::\+esp32::\+gpio::\+\+Digital\+Output\+Pin}}.
+
+\Hypertarget{classsparq_hal_1_1_i_digital_output_pin_afce9c1d33f565ecae6ec1238fdf4ad79}\index{sparqHal::IDigitalOutputPin@{sparqHal::IDigitalOutputPin}!setRawElectricalState@{setRawElectricalState}}
+\index{setRawElectricalState@{setRawElectricalState}!sparqHal::IDigitalOutputPin@{sparqHal::IDigitalOutputPin}}
+\doxysubsubsection{\texorpdfstring{setRawElectricalState()}{setRawElectricalState()}}
+{\footnotesize\ttfamily \label{classsparq_hal_1_1_i_digital_output_pin_afce9c1d33f565ecae6ec1238fdf4ad79} 
+virtual sparq\+Common::\+\+Error\+Codes sparq\+Hal::\+\+IDigital\+Output\+Pin::\+set\+Raw\+Electrical\+State (\begin{DoxyParamCaption}\item[{sparq\+Common::\+\+Raw\+Electrical\+State}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the Raw Electrical State object. 
+
+\begin{DoxyReturn}{Returns}
+sparq\+Common::\+\+Error\+Codes 
+\end{DoxyReturn}
+
+
+Implemented in \doxymbox{\hyperlink{classsparq_pal_1_1esp32_1_1gpio_1_1_digital_output_pin_a2222ef023729f2cecce69fa5dfbaa316}{sparq\+Pal::\+esp32::\+gpio::\+\+Digital\+Output\+Pin}}.
+
+\Hypertarget{classsparq_hal_1_1_i_digital_output_pin_a27567d362552297812fa770c2792ab14}\index{sparqHal::IDigitalOutputPin@{sparqHal::IDigitalOutputPin}!toggleRawElectricalState@{toggleRawElectricalState}}
+\index{toggleRawElectricalState@{toggleRawElectricalState}!sparqHal::IDigitalOutputPin@{sparqHal::IDigitalOutputPin}}
+\doxysubsubsection{\texorpdfstring{toggleRawElectricalState()}{toggleRawElectricalState()}}
+{\footnotesize\ttfamily \label{classsparq_hal_1_1_i_digital_output_pin_a27567d362552297812fa770c2792ab14} 
+virtual sparq\+Common::\+\+Error\+Codes sparq\+Hal::\+\+IDigital\+Output\+Pin::\+toggle\+Raw\+Electrical\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+\begin{DoxyReturn}{Returns}
+sparq\+Common::\+\+Error\+Codes 
+\end{DoxyReturn}
+
+
+Implemented in \doxymbox{\hyperlink{classsparq_pal_1_1esp32_1_1gpio_1_1_digital_output_pin_a408dabf65faea8e5a85a116a279e6266}{sparq\+Pal::\+esp32::\+gpio::\+\+Digital\+Output\+Pin}}.
+
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+Hardware\+Abstraction\+Layer/\+\doxymbox{\hyperlink{_i_digital_output_pin_8hpp}{IDigital\+Output\+Pin.\+hpp}}\end{DoxyCompactItemize}

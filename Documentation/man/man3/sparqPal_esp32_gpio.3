@@ -1,0 +1,38 @@
+.TH "sparqPal::esp32::gpio" 3 "sparq" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+sparqPal::esp32::gpio \- ESP32 Implementation header of the HAL Interface IDigitalOutputPin\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBDigitalOutputPin\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDigitalOutputPin\fP (gpio_num_t pinNumber, sparqCommon::UserDefinedElectricalState userDefinedElectricalState, sparqCommon::RawElectricalState rawElectricalState)"
+.br
+.ti -1c
+.RI "sparqCommon::RawElectricalState \fBgetRawElectricalState\fP ()"
+.br
+.ti -1c
+.RI "sparqCommon::ErrorCodes \fBsetRawElectricalState\fP (sparqCommon::RawElectricalState rawElectricalState)"
+.br
+.ti -1c
+.RI "sparqCommon::ErrorCodes \fBtoggleRawElectricalState\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+ESP32 Implementation header of the HAL Interface IDigitalOutputPin\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for sparq from the source code\&.

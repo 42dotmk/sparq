@@ -1,0 +1,176 @@
+.TH "md__documentation_2_architecture" 3 "sparq" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md__documentation_2_architecture \- sparq, an architecture overview 
+.PP
+
+
+.PP
+This document explains the internal layering of \fRsparq\fP, how it is intended to be consumed by downstream projects and recommended workflows for working with both host builds (via \fRvcpkg\fP) and ESP32 firmware builds (via ESP-IDF Component Manager)\&. It contains a short guide for beginners and deeper notes for senior engineers\&.
+.SH "High-level goals"
+.PP
+.IP "\(bu" 2
+Provide a small, well-scoped C++ framework for embedded projects (drones, robotics, IoT)\&.
+.IP "\(bu" 2
+Keep MCU-specific code separated from framework logic so host-side simulation and unit tests are easy\&.
+.IP "\(bu" 2
+Let each build system do what it does best: \fRvcpkg\fP for host/package management; ESP-IDF for ESP32 firmware builds\&.
+.PP
+.SH "Layering"
+.PP
+The repository is intentionally small and focused\&. The following layers are the canonical structure and the ones you should treat as public API surfaces when consuming \fRsparq\fP\&.
+
+.PP
+.IP "\(bu" 2
+\fRCommon/\fP
+.IP "  \(bu" 4
+Pure header-only utilities, types, common definitions and small helpers used across layers\&.
+.IP "  \(bu" 4
+Must be portable and not depend on target-specific APIs\&.
+.PP
+
+.IP "\(bu" 2
+\fRHardwareAbstractionLayer/\fP (\fRHAL\fP)
+.IP "  \(bu" 4
+The framework-facing contracts: abstract interfaces describing hardware features the application needs (e\&.g\&., \fRIMotorController\fP, \fRIImu\fP, \fRIBatteryMonitor\fP)\&.
+.IP "  \(bu" 4
+HAL must be header-only / interface-only so host code can mock or implement it\&.
+.PP
+
+.IP "\(bu" 2
+\fRPlatformAbstractionLayer/\fP (\fRPAL\fP)
+.IP "  \(bu" 4
+MCU-specific implementations of HAL contracts\&. For example \fRPlatformAbstractionLayer/Esp32\fP contains implementations that use ESP-IDF drivers and FreeRTOS primitives\&.
+.IP "  \(bu" 4
+PAL is the place to put concrete peripheral integrations, DMA/PWM drivers and board-specific configuration\&.
+.PP
+
+.PP
+
+.PP
+Notes:
+.IP "\(bu" 2
+Keep \fRHAL\fP and \fRCommon\fP fully platform-agnostic\&. This makes them safe to publish via \fRvcpkg\fP as the canonical shared component\&.
+.IP "\(bu" 2
+Keep \fRPAL\fP out of \fRvcpkg\fP builds (it is only compiled when an ESP-IDF build is running and should be fetched by ESP-IDF's component manager for firmware builds)\&.
+.IP "\(bu" 2
+If you later add another RTOS or a host runtime, reintroduce a small OS abstraction layer with one stable interface\&.
+.IP "\(bu" 2
+If drivers become reusable across MCUs and OSes, they can be introduced as a top-level directory \fRDrivers/\fP, otherwise keep them inside PAL implementations\&.
+.PP
+.SH "How downstream users should consume \fRsparq\fP"
+.PP
+Two distinct workflows are supported intentionally:
+
+.PP
+.IP "1." 4
+Host / Simulation / Unit Tests (developer machine)
+.IP "  \(bu" 4
+Use \fRvcpkg\fP to install \fRsparq\fP from our registry (\fRbase42-vcpkg-registry\fP)\&.
+.IP "  \(bu" 4
+\fRvcpkg\fP builds the portable parts (\fRCommon\fP, \fRHardwareAbstractionLayer\fP) as libraries or header-only packages the host can link against\&.
+.IP "  \(bu" 4
+This workflow enables fast iteration, CI unit tests and desktop simulation without requiring ESP32 toolchains\&.
+.PP
+
+.IP "2." 4
+ESP32 / Target Firmware (flashed to hardware)
+.IP "  \(bu" 4
+Use ESP-IDF's \fIComponent Manager\fP to fetch \fRsparq\fP as a component and build it together with the app via \fRidf\&.py build\fP\&.
+.IP "  \(bu" 4
+ESP-IDF expects \fRidf_component_register()\fP style components and compiles them with the exact ESP32 cross-toolchain and build flags\&. This guarantees correct linking, partition tables and Kconfig integration\&.
+.IP "  \(bu" 4
+Do not attempt to use \fRvcpkg\fP to cross-compile ESP-IDF components for target firmware builds, the tooling philosophies differ and it leads to fragile builds\&.
+.PP
+
+.PP
+Example \fRidf_component\&.yml\fP entry in your app to consume only the ESP32 component subtree:
+
+.PP
+.PP
+.nf
+dependencies:
+  sparq:
+    git: https://github\&.com/42dotmk/sparq\&.git
+    path: PlatformAbstractionLayer/Esp32
+.fi
+.PP
+
+.PP
+Then in the app repository:
+
+.PP
+.PP
+.nf
+> idf\&.py set\-target esp32
+> idf\&.py build
+> idf\&.py flash
+.fi
+.PP
+
+.PP
+.SH "Packaging and the base42 \fRvcpkg\fP registry"
+.PP
+.IP "\(bu" 2
+Publish only the portable framework surfaces to \fRvcpkg\fP (\fRCommon\fP, \fRHardwareAbstractionLayer\fP)\&. The root package \fRsparq\fP in the registry should not include ESP32 PAL sources in its \fRvcpkg\fP build\&. The \fRPlatformAbstractionLayer/Esp32\fP directory is consumed only by ESP-IDF Component Manager\&.
+.IP "\(bu" 2
+This repository already includes a \fRvcpkg\&.json\fP at the root that enumerates the package metadata\&. Keep that manifest minimal and portable\&.
+.IP "\(bu" 2
+\fRbase42-vcpkg-registry\fP contains a \fRports/sparq/portfile\&.cmake\fP that clones \fRsparq\fP and runs \fRvcpkg_cmake_configure()\fP for the portable parts\&. That port must not pass ESP-specific flags\&.
+.PP
+.SH "Beginner checklist"
+.PP
+.IP "1." 4
+For desktop test builds:
+.IP "  \(bu" 4
+Install \fRvcpkg\fP, set it up as a CMake toolchain\&.
+.IP "  \(bu" 4
+Run \fRvcpkg install sparq\fP (using \fRbase42-vcpkg-registry\fP)\&.
+.IP "  \(bu" 4
+\fRfind_package(sparq CONFIG REQUIRED)\fP and link \fRsparq\fP to your app\&.
+.PP
+
+.IP "2." 4
+For flashing to ESP32:
+.IP "  \(bu" 4
+Add \fRidf_component\&.yml\fP to your app pointing to \fRsparq\fP \fRPlatformAbstractionLayer/Esp32\fP\&.
+.IP "  \(bu" 4
+Run \fRidf\&.py build\fP / \fRidf\&.py flash\fP\&.
+.PP
+
+.PP
+.SH "Senior notes / rationale (for maintainers)"
+.PP
+.IP "\(bu" 2
+Separating portable API and platform implementation reduces CI complexity\&. \fRvcpkg\fP remains the single source of truth for host consumers and CI, while ESP-IDF remains the single source of truth for target firmware builds\&.
+.IP "\(bu" 2
+Avoid trying to jam ESP-IDF into \fRvcpkg\fP or vice versa\&. Differences in toolchains, Kconfig, and component discovery make cross-compilation brittle\&.
+.IP "\(bu" 2
+If you ever need to support multiple RTOSes or host runtimes (POSIX threads, Windows threads), reintroduce a thin OS abstraction\&. Keep it minimal: only the APIs you actually need (timers, threads, mutexes)\&. Prioritize adapters over large virtual machine layers\&.
+.IP "\(bu" 2
+Keep driver code inside PAL until you identify code that is truly shared across unrelated MCUs, then move it to a \fRDrivers/\fP layer with stable public API\&.
+.PP
+.SH "FAQ"
+.PP
+.IP "\(bu" 2
+Q: Can I install \fRsparq\fP with \fRvcpkg\fP and also use ESP-IDF?
+.PP
+
+.PP
+.RS 4
+A: Yes, use \fRvcpkg\fP for host builds and ESP-IDF Component Manager for target firmware\&. They serve different purposes and can coexist\&. 
+.RE
+.PP
+
+.PP
+.IP "\(bu" 2
+Q: Should \fRPlatformAbstractionLayer/Esp32\fP be part of the \fRvcpkg\fP port?
+.PP
+
+.PP
+.RS 4
+A: No\&. Keep it out of \fRvcpkg\fP so the port remains portable and small\&. ESP-IDF will fetch the ESP32 component independently\&. 
+.RE
+.PP
+

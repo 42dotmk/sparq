@@ -1,0 +1,124 @@
+\chapter{sparq, an architecture overview }
+\hypertarget{md__documentation_2_architecture}{}\label{md__documentation_2_architecture}\index{sparq, an architecture overview@{sparq, an architecture overview}}
+\label{md__documentation_2_architecture_autotoc_md26}%
+\Hypertarget{md__documentation_2_architecture_autotoc_md26}%
+
+
+This document explains the internal layering of {\ttfamily sparq}, how it is intended to be consumed by downstream projects and recommended workflows for working with both host builds (via {\ttfamily vcpkg}) and ESP32 firmware builds (via ESP-\/\+IDF Component Manager). It contains a short guide for beginners and deeper notes for senior engineers.\hypertarget{md__documentation_2_architecture_autotoc_md27}{}\doxysection{\texorpdfstring{High-\/level goals}{High-\/level goals}}\label{md__documentation_2_architecture_autotoc_md27}
+
+\begin{DoxyItemize}
+\item Provide a small, well-\/scoped C++ framework for embedded projects (drones, robotics, IoT).
+\item Keep MCU-\/specific code separated from framework logic so host-\/side simulation and unit tests are easy.
+\item Let each build system do what it does best:\+ {\ttfamily vcpkg} for host/\+package management; ESP-\/\+IDF for ESP32 firmware builds.
+\end{DoxyItemize}\hypertarget{md__documentation_2_architecture_autotoc_md28}{}\doxysection{\texorpdfstring{Layering}{Layering}}\label{md__documentation_2_architecture_autotoc_md28}
+The repository is intentionally small and focused. The following layers are the canonical structure and the ones you should treat as public API surfaces when consuming {\ttfamily sparq}.
+
+
+\begin{DoxyItemize}
+\item {\ttfamily Common/\+}
+\begin{DoxyItemize}
+\item Pure header-\/only utilities, types, common definitions and small helpers used across layers.
+\item Must be portable and not depend on target-\/specific APIs.
+\end{DoxyItemize}
+\item {\ttfamily Hardware\+Abstraction\+Layer/\+} ({\ttfamily HAL})
+\begin{DoxyItemize}
+\item The framework-\/facing contracts:\+ abstract interfaces describing hardware features the application needs (e.\+g., {\ttfamily IMotor\+Controller}, {\ttfamily IImu}, {\ttfamily IBattery\+Monitor}).
+\item HAL must be header-\/only /\+ interface-\/only so host code can mock or implement it.
+\end{DoxyItemize}
+\item {\ttfamily Platform\+Abstraction\+Layer/\+} ({\ttfamily PAL})
+\begin{DoxyItemize}
+\item MCU-\/specific implementations of HAL contracts. For example {\ttfamily Platform\+Abstraction\+Layer/\+\+Esp32} contains implementations that use ESP-\/\+IDF drivers and Free\+RTOS primitives.
+\item PAL is the place to put concrete peripheral integrations, DMA/\+\+PWM drivers and board-\/specific configuration.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Notes:\+
+\begin{DoxyItemize}
+\item Keep {\ttfamily HAL} and {\ttfamily Common} fully platform-\/agnostic. This makes them safe to publish via {\ttfamily vcpkg} as the canonical shared component.
+\item Keep {\ttfamily PAL} out of {\ttfamily vcpkg} builds (it is only compiled when an ESP-\/\+IDF build is running and should be fetched by ESP-\/\+IDF\textquotesingle{}s component manager for firmware builds).
+\item If you later add another RTOS or a host runtime, reintroduce a small OS abstraction layer with one stable interface.
+\item If drivers become reusable across MCUs and OSes, they can be introduced as a top-\/level directory {\ttfamily Drivers/\+}, otherwise keep them inside PAL implementations.
+\end{DoxyItemize}\hypertarget{md__documentation_2_architecture_autotoc_md29}{}\doxysection{\texorpdfstring{How downstream users should consume {\ttfamily sparq}}{How downstream users should consume {\ttfamily sparq}}}\label{md__documentation_2_architecture_autotoc_md29}
+Two distinct workflows are supported intentionally:\+
+
+
+\begin{DoxyEnumerate}
+\item Host /\+ Simulation /\+ Unit Tests (developer machine)
+\begin{DoxyItemize}
+\item Use {\ttfamily vcpkg} to install {\ttfamily sparq} from our registry ({\ttfamily base42-\/vcpkg-\/registry}).
+\item {\ttfamily vcpkg} builds the portable parts ({\ttfamily Common}, {\ttfamily Hardware\+Abstraction\+Layer}) as libraries or header-\/only packages the host can link against.
+\item This workflow enables fast iteration, CI unit tests and desktop simulation without requiring ESP32 toolchains.
+\end{DoxyItemize}
+\item ESP32 /\+ Target Firmware (flashed to hardware)
+\begin{DoxyItemize}
+\item Use ESP-\/\+IDF\textquotesingle{}s {\itshape Component Manager} to fetch {\ttfamily sparq} as a component and build it together with the app via {\ttfamily idf.\+py build}.
+\item ESP-\/\+IDF expects {\ttfamily idf\+\_\+component\+\_\+register()} style components and compiles them with the exact ESP32 cross-\/toolchain and build flags. This guarantees correct linking, partition tables and Kconfig integration.
+\item Do not attempt to use {\ttfamily vcpkg} to cross-\/compile ESP-\/\+IDF components for target firmware builds, the tooling philosophies differ and it leads to fragile builds.
+\end{DoxyItemize}
+
+Example {\ttfamily idf\+\_\+component.\+yml} entry in your app to consume only the ESP32 component subtree:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{dependencies:}
+\DoxyCodeLine{\ \ sparq:}
+\DoxyCodeLine{\ \ \ \ git:\ https://github.com/42dotmk/sparq.git}
+\DoxyCodeLine{\ \ \ \ path:\ PlatformAbstractionLayer/Esp32}
+
+\end{DoxyCode}
+
+
+Then in the app repository:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{>\ idf.py\ set-\/target\ esp32}
+\DoxyCodeLine{>\ idf.py\ build}
+\DoxyCodeLine{>\ idf.py\ flash}
+
+\end{DoxyCode}
+
+\end{DoxyEnumerate}\hypertarget{md__documentation_2_architecture_autotoc_md30}{}\doxysection{\texorpdfstring{Packaging and the base42 {\ttfamily vcpkg} registry}{Packaging and the base42 {\ttfamily vcpkg} registry}}\label{md__documentation_2_architecture_autotoc_md30}
+
+\begin{DoxyItemize}
+\item Publish only the portable framework surfaces to {\ttfamily vcpkg} ({\ttfamily Common}, {\ttfamily Hardware\+Abstraction\+Layer}). The root package {\ttfamily sparq} in the registry should not include ESP32 PAL sources in its {\ttfamily vcpkg} build. The {\ttfamily Platform\+Abstraction\+Layer/\+\+Esp32} directory is consumed only by ESP-\/\+IDF Component Manager.
+\item This repository already includes a {\ttfamily vcpkg.\+json} at the root that enumerates the package metadata. Keep that manifest minimal and portable.
+\item {\ttfamily base42-\/vcpkg-\/registry} contains a {\ttfamily ports/\+sparq/\+portfile.\+cmake} that clones {\ttfamily sparq} and runs {\ttfamily vcpkg\+\_\+cmake\+\_\+configure()} for the portable parts. That port must not pass ESP-\/specific flags.
+\end{DoxyItemize}\hypertarget{md__documentation_2_architecture_autotoc_md31}{}\doxysection{\texorpdfstring{Beginner checklist}{Beginner checklist}}\label{md__documentation_2_architecture_autotoc_md31}
+
+\begin{DoxyEnumerate}
+\item For desktop test builds:\+
+\begin{DoxyItemize}
+\item Install {\ttfamily vcpkg}, set it up as a CMake toolchain.
+\item Run {\ttfamily vcpkg install sparq} (using {\ttfamily base42-\/vcpkg-\/registry}).
+\item {\ttfamily find\+\_\+package(sparq CONFIG REQUIRED)} and link {\ttfamily sparq} to your app.
+\end{DoxyItemize}
+\item For flashing to ESP32:\+
+\begin{DoxyItemize}
+\item Add {\ttfamily idf\+\_\+component.\+yml} to your app pointing to {\ttfamily sparq} {\ttfamily Platform\+Abstraction\+Layer/\+\+Esp32}.
+\item Run {\ttfamily idf.\+py build} /\+ {\ttfamily idf.\+py flash}.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md__documentation_2_architecture_autotoc_md32}{}\doxysection{\texorpdfstring{Senior notes /\+ rationale (for maintainers)}{Senior notes /\+ rationale (for maintainers)}}\label{md__documentation_2_architecture_autotoc_md32}
+
+\begin{DoxyItemize}
+\item Separating portable API and platform implementation reduces CI complexity. {\ttfamily vcpkg} remains the single source of truth for host consumers and CI, while ESP-\/\+IDF remains the single source of truth for target firmware builds.
+\item Avoid trying to jam ESP-\/\+IDF into {\ttfamily vcpkg} or vice versa. Differences in toolchains, Kconfig, and component discovery make cross-\/compilation brittle.
+\item If you ever need to support multiple RTOSes or host runtimes (POSIX threads, Windows threads), reintroduce a thin OS abstraction. Keep it minimal:\+ only the APIs you actually need (timers, threads, mutexes). Prioritize adapters over large virtual machine layers.
+\item Keep driver code inside PAL until you identify code that is truly shared across unrelated MCUs, then move it to a {\ttfamily Drivers/\+} layer with stable public API.
+\end{DoxyItemize}\hypertarget{md__documentation_2_architecture_autotoc_md33}{}\doxysection{\texorpdfstring{FAQ}{FAQ}}\label{md__documentation_2_architecture_autotoc_md33}
+
+\begin{DoxyItemize}
+\item Q:\+ Can I install {\ttfamily sparq} with {\ttfamily vcpkg} and also use ESP-\/\+IDF?
+\end{DoxyItemize}
+
+\begin{quote}
+A:\+ Yes, use {\ttfamily vcpkg} for host builds and ESP-\/\+IDF Component Manager for target firmware. They serve different purposes and can coexist. \end{quote}
+
+
+
+\begin{DoxyItemize}
+\item Q:\+ Should {\ttfamily Platform\+Abstraction\+Layer/\+\+Esp32} be part of the {\ttfamily vcpkg} port?
+\end{DoxyItemize}
+
+\begin{quote}
+A:\+ No. Keep it out of {\ttfamily vcpkg} so the port remains portable and small. ESP-\/\+IDF will fetch the ESP32 component independently. \end{quote}

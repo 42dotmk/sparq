@@ -1,10 +1,8 @@
 idf_component_register(
-    SRCS
-        placeholder.cpp
+    SRC_DIRS
+        "."
     INCLUDE_DIRS
-        .
+        "."
     REQUIRES
-        driver
-        esp_system
-        freertos
+        esp_driver_gpio
 )
