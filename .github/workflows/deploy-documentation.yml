@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - production
-      - task/gpio-hal-abstraction
 
 # Permissions required for official GitHub Pages deployment
 permissions:
