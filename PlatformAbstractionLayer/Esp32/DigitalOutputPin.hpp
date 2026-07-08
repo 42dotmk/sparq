@@ -1,3 +1,8 @@
+///
+///@file DigitalOutputPin.hpp
+///@brief ESP32 Implementation header of the HAL Interface IDigitalOutputPin
+///
+
 #pragma once
 
 #include <HardwareAbstractionLayer/IDigitalOutputPin.hpp>
@@ -14,6 +19,10 @@ namespace sparqPal::esp32::gpio
     class DigitalOutputPin : public sparqHal::IDigitalOutputPin
     {
     public:
+        /// @brief Constructor of the ESP32 DigitalOutputPin
+        /// @param pinNumber
+        /// @param userDefinedElectricalState
+        /// @param rawElectricalState
         DigitalOutputPin(gpio_num_t pinNumber, sparqCommon::UserDefinedElectricalState userDefinedElectricalState, sparqCommon::RawElectricalState rawElectricalState);
         ~DigitalOutputPin() = default;
 

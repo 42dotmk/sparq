@@ -1,3 +1,8 @@
+///
+///@file IDigitalOutputPin.hpp
+///@brief HAL Interface for digital output pin
+///
+
 #pragma once
 
 #include <Common/ErrorCodes.hpp>

@@ -1,0 +1,72 @@
+.TH "sparqHal::IDigitalOutputPin" 3 "sparq" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+sparqHal::IDigitalOutputPin
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherited by \fBsparqPal::esp32::gpio::DigitalOutputPin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~IDigitalOutputPin\fP ()=default"
+.br
+.RI "Destroy the \fBIDigitalOutputPin\fP object\&. "
+.ti -1c
+.RI "virtual sparqCommon::RawElectricalState \fBgetRawElectricalState\fP ()=0"
+.br
+.RI "Get the Raw Electrical State object\&. "
+.ti -1c
+.RI "virtual sparqCommon::ErrorCodes \fBsetRawElectricalState\fP (sparqCommon::RawElectricalState)=0"
+.br
+.RI "Set the Raw Electrical State object\&. "
+.ti -1c
+.RI "virtual sparqCommon::ErrorCodes \fBtoggleRawElectricalState\fP ()=0"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual sparqCommon::RawElectricalState sparqHal::IDigitalOutputPin::getRawElectricalState ()\fR [pure virtual]\fP"
+
+.PP
+Get the Raw Electrical State object\&. 
+.PP
+\fBReturns\fP
+.RS 4
+sparqCommon::RawElectricalState 
+.RE
+.PP
+
+.PP
+Implemented in \fBsparqPal::esp32::gpio::DigitalOutputPin\fP\&.
+.SS "virtual sparqCommon::ErrorCodes sparqHal::IDigitalOutputPin::setRawElectricalState (sparqCommon::RawElectricalState )\fR [pure virtual]\fP"
+
+.PP
+Set the Raw Electrical State object\&. 
+.PP
+\fBReturns\fP
+.RS 4
+sparqCommon::ErrorCodes 
+.RE
+.PP
+
+.PP
+Implemented in \fBsparqPal::esp32::gpio::DigitalOutputPin\fP\&.
+.SS "virtual sparqCommon::ErrorCodes sparqHal::IDigitalOutputPin::toggleRawElectricalState ()\fR [pure virtual]\fP"
+
+.PP
+\fBReturns\fP
+.RS 4
+sparqCommon::ErrorCodes 
+.RE
+.PP
+
+.PP
+Implemented in \fBsparqPal::esp32::gpio::DigitalOutputPin\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for sparq from the source code\&.
