@@ -14,7 +14,14 @@ namespace sparqHal
     {
         virtual ~IDigitalInputPin() = default;
         ///
+        ///@brief Get the Raw Electrical State object
+        ///
+        ///@return sparqCommon::RawElectricalState
         virtual sparqCommon::RawElectricalState getRawElectricalState() = 0;
+        ///
+        ///@brief Get the Pin Number object
+        ///
+        ///@return std::uint8_t
         virtual std::uint8_t getPinNumber() = 0;
         ///
         ///@brief initialization for ESP-IDF
