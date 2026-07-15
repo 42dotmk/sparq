@@ -14,8 +14,9 @@ namespace sparqCommon
         ActiveHigh = 1,
     };
 
-    /// @brief Raw electrical state from the pin, e.g. button is pressed and is low and the raw will be low, same for high when a sensor picks up something and activates, undefined is when the pin is not connected and has high impedance
-    enum class RawElectricalState
+    /// @brief Outcome of the check between the raw electrical state and the user defined electrical state
+    /// If user wants active high and raw is high, then logical state is active, if user wants active low and raw is low, then logical state is active, otherwise logical is inactive
+    enum class LogicalState
     {
         LOW = 0,
         HIGH = 1,

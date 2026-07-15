@@ -7,6 +7,7 @@
 
 #include <HardwareAbstractionLayer/IDigitalInputPin.hpp>
 
+#include <Common/ErrorCodes.hpp>
 #include <Common/Types.hpp>
 
 #include "driver/gpio.h"

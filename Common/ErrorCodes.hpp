@@ -13,14 +13,8 @@ namespace sparqCommon
     ///
     enum class ErrorCodes
     {
-        ///
-        ///@brief No error
-        ///
+        /// @brief No error
         OK = 0,
-        ///
-        ///@brief Undefined Electrical level, usually used when you get an illegal (unusable) arguments when setting an electrical state
-        ///
-        UNDEFINED_ELECTRICAL_LEVEL = 1,
 
     };
 }

@@ -15,22 +15,16 @@ namespace sparqHal
     public:
         virtual ~IDigitalOutputPin() = default;
 
-        ///
-        ///@brief Get the Raw Electrical State object
-        ///
-        ///@return sparqCommon::RawElectricalState
-        virtual sparqCommon::RawElectricalState getRawElectricalState() = 0;
+        /// @brief Get the logical state of the pin(Active / Inactive) checked between the raw electrical state and the user defined electrical state
+        ///@return sparqCommon::LogicalState
+        virtual sparqCommon::LogicalState getLogicalState() = 0;
 
-        ///
-        ///@brief Set the Raw Electrical State object
-        ///
+        /// @brief Set the logical state of the pin (Active / Inactive) checked between the raw electrical state and the user defined electrical state
         ///@return sparqCommon::ErrorCodes
-        virtual sparqCommon::ErrorCodes setRawElectricalState(sparqCommon::RawElectricalState) = 0;
+        virtual sparqCommon::ErrorCodes setLogicalState(sparqCommon::LogicalState) = 0;
 
-        ///
-        ///@brief
-        ///
-        ///@return sparqCommon::ErrorCodes
-        virtual sparqCommon::ErrorCodes toggleRawElectricalState() = 0;
+        /// @brief Toggle between logical states (Active / Inactive)
+        /// @return sparqCommon::ErrorCodes
+        virtual sparqCommon::ErrorCodes toggleLogicalState() = 0;
     };
 }

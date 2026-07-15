@@ -5,30 +5,27 @@
 
 namespace sparqPal::esp32::gpio
 {
-    DigitalOutputPin(gpio_num_t pinNumber, sparqCommon::UserDefinedElectricalState userDefinedElectricalState, sparqCommon::RawElectricalState rawElectricalState)
+    DigitalOutputPin(gpio_num_t pinNumber, sparqCommon::UserDefinedElectricalState userDefinedElectricalState, sparqCommon::LogicalState logicalState)
         : this->pinNumber{pinNumber},
     this->userDefinedElectricalState{userDefinedElectricalState},
     {
         gpio_reset_pin(this->pinNumber);
         gpio_set_direction(this->pinNumber, GPIO_INPUT_OUTPUT);
-        this->setRawElectricalState(rawElectricalState);
+        this->setLogicalState(logicalState);
     }
 
-    sparqCommon::RawElectricalState getRawElectricalState()
+    sparqCommon::LogicalState getLogicalState()
     {
-        std::uint32_t espState = gpio_get_level(this->pinNumber);
+        auto rawElectricalState = gpio_get_level(this->pinNumber);
 
-        auto espStateHigh = espState == LOGIC_HIGH ? 1 : 0;
-        auto userDefinedElectricalStateHigh = userDefinedElectricalState == sparqCommon::UserDefinedElectricalState::ActiveHigh ? 1 : 0;
-
-        if ((espStateHigh && userDefinedElectricalStateHigh) ||
-            (!espStateHigh && !userDefinedElectricalStateHigh))
+        if ((rawElectricalState && userDefinedElectricalState) ||
+            (!rawElectricalState && !userDefinedElectricalState))
         {
-            return sparqCommon::RawElectricalState::HIGH;
+            return sparqCommon::LogicalState::Active;
         }
         else
         {
-            return sparqCommon::RawElectricalState::LOW;
+            return sparqCommon::LogicalState::Inactive;
         }
     }
 
@@ -55,10 +52,10 @@ namespace sparqPal::esp32::gpio
         }
     }
 
-    sparqCommon::ErrorCodes toggleRawElectricalState()
+    sparqCommon::ErrorCodes toggleLogicalState()
     {
-        sparqCommon::RawElecticalState currentState = this->getRawElectricalState();
-        if (currentState == sparqCommon::RawElectricalState::LOW)
+        sparqCommon::LogicalState currentState = this->getLogicalState();
+        if (currentState == sparqCommon::LogicalState::Inactive)
         {
             this->setRawElectricalState(sparqCommon::RawElectricalState::HIGH);
             return sparqCommon::ErrorCodes::OK;
