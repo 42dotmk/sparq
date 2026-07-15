@@ -1,4 +1,4 @@
-#include <DigitalOutputPin.hpp>
+#include <PlatformAbstractionLayer/Esp32/DigitalOutputPin.hpp>
 
 #include <Common/ErrorCodes.hpp>
 #include <Common/Types.hpp>
