@@ -24,4 +24,25 @@ namespace sparqPal::esp32::gpio
             return sparqCommon::LogicalState::Inactive;
         }
     }
+
+    std::uint8_t DigitalInputPin::getPinNumber()
+    {
+        return static_cast<std::uint8_t>(this->pinNumber);
+    }
+
+    sparqCommon::ErrorCodes DigitalInputPin::initialization()
+    {
+        gpio_config_t config = {};
+
+        config.pin_bit_mask = BIT(this->pinNumber);
+        config.mode = GPIO_MODE_INPUT;
+        config.intr_type = GPIO_INTR_DISABLE;
+
+        auto gpioConfigError = gpio_config(&config);
+
+        if (gpioConfigError != ESP_OK)
+        {
+            return sparqCommon::ErrorCodes::GPIO_CONFIG_ERROR;
+        }
+    }
 } // namespace sparqPal::esp32::gpio

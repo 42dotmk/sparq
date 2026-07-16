@@ -26,22 +26,11 @@ namespace sparqPal::esp32::gpio
         /// @brief Default desctructor of DigitalInputPin
         virtual ~DigitalInputPin() = default;
 
-        ///
-        ///@brief Get the Raw Electrical State object
-        ///
-        ///@return sparqCommon::RawElectricalState
-        sparqCommon::RawElectricalState getRawElectricalState() = 0;
+        sparqCommon::LogicalState getLogicalState() = 0;
 
-        ///
-        ///@brief Get the Pin Number object
-        ///
-        ///@return std::uint8_t
         virtual std::uint8_t getPinNumber() = 0;
 
-        ///
-        ///@brief initialization for ESP-IDF
-        ///
-        virtual void initialization() = 0;
+        virtual sparqCommon::ErrorCodes initialization() = 0;
 
     private:
         const gpio_num_t pinNumber;

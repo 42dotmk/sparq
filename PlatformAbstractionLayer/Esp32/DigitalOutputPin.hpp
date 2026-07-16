@@ -22,13 +22,13 @@ namespace sparqPal::esp32::gpio
         /// @brief Constructor of the ESP32 DigitalOutputPin
         /// @param pinNumber
         /// @param userDefinedElectricalState
-        /// @param rawElectricalState
-        DigitalOutputPin(gpio_num_t pinNumber, sparqCommon::UserDefinedElectricalState userDefinedElectricalState, sparqCommon::RawElectricalState rawElectricalState);
+        /// @param logicalState
+        DigitalOutputPin(gpio_num_t pinNumber, sparqCommon::UserDefinedElectricalState userDefinedElectricalState, sparqCommon::LogicalState logicalState);
         ~DigitalOutputPin() = default;
 
-        sparqCommon::RawElectricalState getRawElectricalState() override final;
-        sparqCommon::ErrorCodes setRawElectricalState(sparqCommon::RawElectricalState) override final;
-        sparqCommon::ErrorCodes toggleRawElectricalState() override final;
+        sparqCommon::LogicalState getLogicalState() override final;
+        sparqCommon::ErrorCodes setLogicalState(sparqCommon::LogicalState) override final;
+        sparqCommon::ErrorCodes toggleLogicalState() override final;
 
     private:
         const gpio_num_t pinNumber;

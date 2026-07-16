@@ -18,8 +18,7 @@ namespace sparqCommon
     /// If user wants active high and raw is high, then logical state is active, if user wants active low and raw is low, then logical state is active, otherwise logical is inactive
     enum class LogicalState
     {
-        LOW = 0,
-        HIGH = 1,
-        UNDEFINED = 2,
+        Inactive = 0,
+        Active = 1
     };
 }

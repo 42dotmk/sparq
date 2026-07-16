@@ -29,26 +29,24 @@ namespace sparqPal::esp32::gpio
         }
     }
 
-    sparqCommon::ErrorCodes setRawElectricalState(sparqCommon::RawElectricalState rawElectricalState)
+    sparqCommon::ErrorCodes setLogicalState(sparqCommon::LogicalState logicalState)
     {
-        auto rawElectricalLevelHigh = rawElectricalState == sparqCommon::RawElectricalState::HIGH ? 1 : 0;
-        auto userDefinedElectricalLevelHigh = this->userDefinedElectricalState == sparqCommon::UserDefinedElectricalState::ActiveHigh ? 1 : 0;
-
-        if ((rawElectricalLevelHigh && userDefinedElectricalStateHigh) ||
-            (!rawElectricalLevelHigh && !userDefinedElectricalStateHigh))
+        if ((logicalState && userDefinedElectricalState) ||
+            (!logicalState && !userDefinedElectricalState))
         {
-            gpio_set_level(this->pinNumber, LOGIC_HIGH);
-            return sparqCommon::ErrorCodes::OK;
-        }
-        else if ((rawElectricalLevelHigh && !userDefinedElectricalStateHigh) ||
-                 (!rawElectricalLevelHigh && userDefinedElectricalStateHigh))
-        {
-            gpio_set_level(this->pinNumber, LOGIC_LOW);
+            if (gpio_set_level(this->pinNumber, 1) != ESP_OK)
+            {
+                return sparqCommon::ErrorCodes::GPIO_SET_LEVEL_FAIL;
+            }
             return sparqCommon::ErrorCodes::OK;
         }
         else
         {
-            return sparqCommon::ErrorCodes::UNDEFINED_ELECTRICAL_LEVEL;
+            if (gpio_set_level(this->pinNumber, 0) != ESP_OK)
+            {
+                return sparqCommon::ErrorCodes::GPIO_SET_LEVEL_FAIL;
+            }
+            return sparqCommon::ErrorCodes::OK;
         }
     }
 
@@ -57,18 +55,13 @@ namespace sparqPal::esp32::gpio
         sparqCommon::LogicalState currentState = this->getLogicalState();
         if (currentState == sparqCommon::LogicalState::Inactive)
         {
-            this->setRawElectricalState(sparqCommon::RawElectricalState::HIGH);
-            return sparqCommon::ErrorCodes::OK;
-        }
-        else if (currentState == sparqCommon::RawElectricalState::HIGH)
-        {
-            this->setRawElectricalState(sparqCommon::RawElectricalState::LOW);
+            this->setLogicalState(sparqCommon::LogicalState::Active);
             return sparqCommon::ErrorCodes::OK;
         }
         else
         {
-            this->setRawElectricalState(sparqCommon::RawElectricalState::UNDEFINED);
-            return sparqCommon::ErrorCodes::UNDEFINED_ELECTRICAL_LEVEL;
+            this->setLogicalState(sparqCommon::LogicalState::Inactive);
+            return sparqCommon::ErrorCodes::OK;
         }
     }
 }

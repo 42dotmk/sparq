@@ -15,6 +15,9 @@ namespace sparqCommon
     {
         /// @brief No error
         OK = 0,
-
+        /// @brief Overriden GPIO set level fail error code from platforms
+        GPIO_SET_LEVEL_FAIL = 1,
+        /// @brief Overriden GPIO config error
+        GPIO_CONFIG_ERROR = 2,
     };
 }
