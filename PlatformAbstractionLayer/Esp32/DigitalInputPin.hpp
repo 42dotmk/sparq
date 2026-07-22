@@ -24,13 +24,13 @@ namespace sparqPal::esp32::gpio
         /// @param userDefinedElectricalState
         DigitalInputPin(gpio_num_t pinNumber, sparqCommon::UserDefinedElectricalState userDefinedElectricalState);
         /// @brief Default desctructor of DigitalInputPin
-        virtual ~DigitalInputPin() = default;
+        ~DigitalInputPin() = default;
 
-        sparqCommon::LogicalState getLogicalState() = 0;
+        sparqCommon::LogicalState getLogicalState() override final;
 
-        virtual std::uint8_t getPinNumber() = 0;
+        std::uint8_t getPinNumber() override final;
 
-        virtual sparqCommon::ErrorCodes initialization() = 0;
+        sparqCommon::ErrorCodes initialization() override final;
 
     private:
         const gpio_num_t pinNumber;
